@@ -520,6 +520,7 @@ command_get(int control_fd, int n_param, char* pathname)
             printf("> received %d bytes.\n",datalen);
             bzero(data,BUFFERLEN);
         }
+        fclose(f);
         if (receive(reply,control_fd,"reply") == -1) {
             close(data_fd);
             return;
@@ -615,6 +616,7 @@ command_put(int control_fd, int n_param, char* pathname)
             printf("> sended %d bytes.\n",datalen);
             bzero(data,BUFFERLEN);
         }
+        fclose(f);
         close(data_fd); /* end data connection actively when transfer ended */
         if (receive(reply,control_fd,"reply") == -1) {
             close(data_fd);
