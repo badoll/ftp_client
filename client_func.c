@@ -602,13 +602,12 @@ command_put(int control_fd, int n_param, char* pathname)
         while (!feof(f)) { /* transfer data */
         /* each data binary string has a terminating '\0' */
             int datalen;
-            if ((datalen = fread(data,1,BUFFERLEN-1,f)) == 0) {
+            if ((datalen = fread(data,1,BUFFERLEN,f)) == 0) {
                 fprintf(stderr,"read data from File: %s failed.\n", pathname);
                 close(data_fd);
                 return;
             }
-            data[datalen] = '\0';
-            if (send(data_fd,data,strlen(data),0) == -1) {
+            if (send(data_fd,data,datalen,0) == -1) {
                 printf("Error: send data in File: %s failed.\n", pathname);
                 close(data_fd);
                 return;
